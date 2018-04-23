@@ -6,13 +6,23 @@ public class CreepCatScript : MonoBehaviour {
 
 	private Rigidbody2D rb;
 	private Transform hpFill;
-	float hpFillMaxScaleX;
+    private GameObject downCollision;
+    private GameObject fightIcon;
+    public LayerMask enemyLayerMask;
+
+    float hpFillMaxScaleX;
 
 	private bool isFighting = false;
 	private float health = 100f;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        downCollision = this.transform.Find("DownCollision").gameObject;
+        fightIcon = this.transform.Find("FightIcon").gameObject;
+    }
+
+    // Use this for initialization
+    void Start () {
 		// Get components
 		rb = GetComponent<Rigidbody2D>();
 		hpFill = this.gameObject.transform.GetChild(1);
@@ -20,25 +30,57 @@ public class CreepCatScript : MonoBehaviour {
 		// 
 		hpFillMaxScaleX = hpFill.transform.localScale.x;
 
-		InvokeRepeating("ff", 2.0f, 2f);
+		//InvokeRepeating("ff", 2.0f, 2f);
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		//Movement ();
-		//
-		//health--;
-		//UpdateHpBar ();
-	}
+	void Update ()
+    {
+        Movement();
+        CheckForEnemy();
+        Fight();
+        //
+        //health--;
+        //UpdateHpBar ();
+    }
+    void Fight()
+    {
+        if (!isFighting)
+        {
+            return;
+        }
+        ff();
+
+
+    }
+
+    void CheckForEnemy()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(downCollision.transform.position, Vector2.down, 0.1f, enemyLayerMask);
+        if (hit.collider != null)
+        {
+            isFighting = true;
+            print("isFighting");
+            fightIcon.SetActive(true);
+        }
+        else
+        {
+            isFighting = false;
+            fightIcon.SetActive(false);
+        }
+    }
 
 	void Movement() {
 		if (!isFighting) {
-			rb.transform.Translate(Vector3.down * Time.deltaTime);
-		}
+            //rb.transform.Translate(Vector3.down * Time.deltaTime);
+            Vector2 newPosition = rb.transform.position;
+            newPosition.y -= 0.01f; 
+            rb.transform.position = newPosition;
+        }
 	}
 
 	void ff() {
-		UpdateHp (-10f);
+		UpdateHp (-1f);
 	}
 	/*void UpdateHpBar() {
 		print ("scale" + hpBg.transform.localScale.x);
