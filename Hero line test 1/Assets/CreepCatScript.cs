@@ -74,7 +74,7 @@ public class CreepCatScript : MonoBehaviour {
 		if (!isFighting) {
             //rb.transform.Translate(Vector3.down * Time.deltaTime);
             Vector2 newPosition = rb.transform.position;
-            newPosition.y -= 0.01f; 
+            newPosition.y -= 0.01f;
             rb.transform.position = newPosition;
         }
 	}

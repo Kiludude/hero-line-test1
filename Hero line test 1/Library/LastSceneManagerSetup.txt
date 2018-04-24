@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Gameplay.unity
+- path: C:/Users/Kilu/Documents/Unity Projects/blobby-volley-clone/Assets/Scenes/Gameplay.unity
   isLoaded: 1
   isActive: 1
