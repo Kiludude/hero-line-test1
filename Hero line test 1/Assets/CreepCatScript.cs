@@ -8,6 +8,7 @@ public class CreepCatScript : MonoBehaviour {
 	private Transform hpFill;
     private GameObject downCollision;
     private GameObject fightIcon;
+	private GameObject fightingEnemy;
     public LayerMask enemyLayerMask;
 
     float hpFillMaxScaleX;
@@ -50,6 +51,10 @@ public class CreepCatScript : MonoBehaviour {
             return;
         }
         ff();
+		EnemyScript enemyScript = (EnemyScript) fightingEnemy.GetComponent(typeof(EnemyScript));
+		enemyScript.applyDamage(1);
+
+		//fightingEnemy.scr
 
 
     }
@@ -62,11 +67,13 @@ public class CreepCatScript : MonoBehaviour {
             isFighting = true;
             print("isFighting");
             fightIcon.SetActive(true);
+			fightingEnemy = hit.collider.gameObject;
         }
         else
         {
             isFighting = false;
             fightIcon.SetActive(false);
+			fightingEnemy = null;
         }
     }
 
@@ -80,7 +87,7 @@ public class CreepCatScript : MonoBehaviour {
 	}
 
 	void ff() {
-		UpdateHp (-1f);
+		UpdateHp (-0.6f);
 	}
 	/*void UpdateHpBar() {
 		print ("scale" + hpBg.transform.localScale.x);
